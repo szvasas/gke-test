@@ -1,0 +1,109 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2023-08-02T10:04:02Z"
+  labels:
+    run: myhello
+  name: myhello
+  namespace: default
+  resourceVersion: "5332"
+  uid: b5ed7869-793c-416d-b0cc-655dee50458a
+spec:
+  containers:
+  - image: hello-world
+    imagePullPolicy: Always
+    name: myhello
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-5h68c
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: gke-cluster-1-default-pool-a3901c11-m4s5
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-5h68c
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2023-08-02T10:04:02Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2023-08-02T10:04:02Z"
+    message: 'containers with unready status: [myhello]'
+    reason: ContainersNotReady
+    status: "False"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2023-08-02T10:04:02Z"
+    message: 'containers with unready status: [myhello]'
+    reason: ContainersNotReady
+    status: "False"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2023-08-02T10:04:02Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://ba5bbb3ccbe7d41c31e12d03540924ccc0d4326ec8448e59fd4cb38bde3903de
+    image: docker.io/library/hello-world:latest
+    imageID: docker.io/library/hello-world@sha256:926fac19d22aa2d60f1a276b66a20eb765fbeea2db5dbdaafeb456ad8ce81598
+    lastState:
+      terminated:
+        containerID: containerd://ba5bbb3ccbe7d41c31e12d03540924ccc0d4326ec8448e59fd4cb38bde3903de
+        exitCode: 0
+        finishedAt: "2023-08-02T10:04:17Z"
+        reason: Completed
+        startedAt: "2023-08-02T10:04:17Z"
+    name: myhello
+    ready: false
+    restartCount: 2
+    started: false
+    state:
+      waiting:
+        message: back-off 20s restarting failed container=myhello pod=myhello_default(b5ed7869-793c-416d-b0cc-655dee50458a)
+        reason: CrashLoopBackOff
+  hostIP: 10.128.0.9
+  phase: Running
+  podIP: 10.60.2.6
+  podIPs:
+  - ip: 10.60.2.6
+  qosClass: BestEffort
+  startTime: "2023-08-02T10:04:02Z"
